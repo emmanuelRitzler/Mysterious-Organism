@@ -3,7 +3,6 @@ const returnRandBase = () => {
   const dnaBases = ['A', 'T', 'C', 'G'];
   return dnaBases[Math.floor(Math.random() * 4)];
 };
-console.log(returnRandBase());
 
 // Returns a random single stand of DNA containing 15 bases
 const mockUpStrand = () => {
@@ -13,7 +12,7 @@ const mockUpStrand = () => {
   }
   return newStrand;
 };
-console.log(mockUpStrand());
+console.log(originalStrand = mockUpStrand());
 
 const pAequorFactory = (specimenNum, dna) => {
   const dnaBases = ['A', 'T', 'C', 'G'];
@@ -31,7 +30,6 @@ const pAequorFactory = (specimenNum, dna) => {
       let modifiedBase = dnaBases.splice(indexToDelete, 1);
       
       modifiedBase = dnaBases[Math.floor(Math.random() * 3)];
-      console.log(modifiedBase);
       
       const MockUpStrand = () => {
         const newStrand = [];
@@ -44,30 +42,22 @@ const pAequorFactory = (specimenNum, dna) => {
       return newStrand;
     },
     compareDNA() {
-      let originalMock = mockUpStrand();
-      let modifiedMock = organism.mutate();
+      console.log(originalStrand)
       let identicalBases = [];
 
-      for(let i = 0; i < originalMock.length; i++) {
-        if(originalMock[i] === modifiedMock[i]) {
-          identicalBases.push(originalMock[i]);
+      for(let i = 0; i < mockUpStrand().length; i++) {
+        if(mockUpStrand()[i] === organism.mutate()[i]) {
+          identicalBases.push(mockUpStrand()[i]);
         }
       };
-      console.log(originalMock);
-      console.log(modifiedMock);
-      console.log(originalMock[0]);
-      console.log(modifiedMock[0]);
-      console.log(originalMock.length);
-      console.log(modifiedMock.length);
-      console.log(identicalBases.length);
+
       console.log(identicalBases);
-      let percentageOfSimilarity = (identicalBases.length / originalMock.length) * 100;
+      let percentageOfSimilarity = (identicalBases.length / mockUpStrand().length) * 100;
       return `The strand #1 and the strand #2 have ${percentageOfSimilarity}% DNA in common.`;
     } 
   }
 };
 const organism = pAequorFactory(1, mockUpStrand);
-console.log(organism.mutate());
 console.log(organism.compareDNA());
 
 
