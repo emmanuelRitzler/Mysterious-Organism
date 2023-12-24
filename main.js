@@ -3,6 +3,7 @@ const returnRandBase = () => {
   const dnaBases = ['A', 'T', 'C', 'G'];
   return dnaBases[Math.floor(Math.random() * 4)];
 };
+//console.log(returnRandBase());
 
 // Returns a random single stand of DNA containing 15 bases
 const mockUpStrand = () => {
@@ -38,27 +39,45 @@ const pAequorFactory = (specimenNum, dna) => {
         }
         return newStrand;
       };
-      const newStrand = MockUpStrand()
-      return newStrand;
+      const modifiedStrand = MockUpStrand()
+      return modifiedStrand;
     },
     compareDNA() {
-      console.log(originalStrand)
+      //console.log(originalStrand)
+      console.log(modifiedStrand = organism.mutate());
       let identicalBases = [];
 
-      for(let i = 0; i < mockUpStrand().length; i++) {
-        if(mockUpStrand()[i] === organism.mutate()[i]) {
-          identicalBases.push(mockUpStrand()[i]);
+      for(let i = 0; i < originalStrand.length; i++) {
+        if(originalStrand[i] === modifiedStrand[i]) {
+          identicalBases.push(originalStrand[i]);
         }
       };
+      //console.log(modifiedStrand);
 
-      console.log(identicalBases);
-      let percentageOfSimilarity = (identicalBases.length / mockUpStrand().length) * 100;
+      //console.log(identicalBases);
+      let percentageOfSimilarity = (identicalBases.length / originalStrand.length) * 100;
       return `The strand #1 and the strand #2 have ${percentageOfSimilarity}% DNA in common.`;
-    } 
+    },
+    willLikelySurvive() {
+      let surviveG = modifiedStrand.filter(base => base === 'G');
+      let numberOfG = surviveG.length;
+      console.log(numberOfG);
+      let surviveC = modifiedStrand.filter(base => base === 'C');
+      let numberOfC = surviveC.length;
+      console.log(numberOfC);
+
+      if((numberOfG / modifiedStrand.length) * 100 >= 60) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
   }
 };
 const organism = pAequorFactory(1, mockUpStrand);
 console.log(organism.compareDNA());
+console.log(organism.willLikelySurvive());
 
 
 
