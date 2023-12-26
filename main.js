@@ -43,7 +43,7 @@ const pAequorFactory = (specimenNum, dna) => {
       return modifiedStrand;
     },
     compareDNA() {
-      //console.log(originalStrand)
+      console.log(originalStrand)
       console.log(modifiedStrand = organism.mutate());
       let identicalBases = [];
 
@@ -61,26 +61,42 @@ const pAequorFactory = (specimenNum, dna) => {
     willLikelySurvive() {
       let surviveG = modifiedStrand.filter(base => base === 'G');
       let numberOfG = surviveG.length;
-      console.log(numberOfG);
+      //console.log(numberOfG);
       let surviveC = modifiedStrand.filter(base => base === 'C');
       let numberOfC = surviveC.length;
-      console.log(numberOfC);
+      //console.log(numberOfC);
 
-      if((numberOfG / modifiedStrand.length) * 100 >= 60) {
+      if((numberOfG / modifiedStrand.length) * 100 >= 60 || (numberOfC / modifiedStrand.length) * 100 >= 60) {
         return true;
       }
       else {
         return false;
-      }
+      } 
     }
   }
 };
 const organism = pAequorFactory(1, mockUpStrand);
-console.log(organism.compareDNA());
-console.log(organism.willLikelySurvive());
+//console.log(organism.compareDNA());
+//console.log(organism.willLikelySurvive());
 
+const survivalInstances = [];
+const unqualifiedInstances  = [];
+let i = 0;
+while (i < 100) {
+  if (survivalInstances.length === 30) {
+    break;
+  }
 
-
-
-
-
+  if (organism.willLikelySurvive() === true) {
+    survivalInstances.push(organism.mutate());
+  }
+  else if (organism.willLikelySurvive() === false) {
+    unqualifiedInstances.push(organism.mutate());
+  }
+  else {
+    console.log('There is an error, somewhere.')
+  }
+  i++;
+}
+console.log(survivalInstances);
+//console.log(unqualifiedInstances);
