@@ -13,13 +13,15 @@ const mockUpStrand = () => {
   }
   return newStrand;
 };
-console.log(originalStrand = mockUpStrand());
+//console.log(originalStrand = mockUpStrand());
 
 const pAequorFactory = (specimenNum, dna) => {
+  let modifiedStrand = [];
   const dnaBases = ['A', 'T', 'C', 'G'];
   return {
     specimenNum: specimenNum,
     dna: dna,
+    // Transforming the provided dna strand into a new one by modifying the base
     mutate() {
       const dnaBases = ['A', 'T', 'C', 'G'];
       let slicedBase = dnaBases.slice(dnaBases[0], 4);
@@ -42,6 +44,7 @@ const pAequorFactory = (specimenNum, dna) => {
       const modifiedStrand = MockUpStrand()
       return modifiedStrand;
     },
+    // Comparing the original strand and the new one
     compareDNA() {
       console.log(originalStrand)
       console.log(modifiedStrand = organism.mutate());
@@ -52,21 +55,28 @@ const pAequorFactory = (specimenNum, dna) => {
           identicalBases.push(originalStrand[i]);
         }
       };
-      //console.log(modifiedStrand);
+      console.log(modifiedStrand);
 
       //console.log(identicalBases);
       let percentageOfSimilarity = (identicalBases.length / originalStrand.length) * 100;
       return `The strand #1 and the strand #2 have ${percentageOfSimilarity}% DNA in common.`;
     },
+    // Evaluating the chance of surviving by checking if the strand has more than 60% of G or C bases in the strand
     willLikelySurvive() {
-      let surviveG = modifiedStrand.filter(base => base === 'G');
+      let surviveG = organism.mutate().filter(base => base === 'G');
       let numberOfG = surviveG.length;
       //console.log(numberOfG);
-      let surviveC = modifiedStrand.filter(base => base === 'C');
+      let surviveC = organism.mutate().filter(base => base === 'C');
       let numberOfC = surviveC.length;
       //console.log(numberOfC);
 
-      if((numberOfG / modifiedStrand.length) * 100 >= 60 || (numberOfC / modifiedStrand.length) * 100 >= 60) {
+      let percentageOfG = (numberOfG / organism.mutate().length) * 100;
+      let percentageOfC = (numberOfC / organism.mutate().length) * 100;
+
+      //console.log('Percentage of G:', percentageOfG);
+      //console.log('Percentage of C:', percentageOfC);
+
+      if(percentageOfG >= 60 || percentageOfC >= 60) {
         return true;
       }
       else {
@@ -79,24 +89,23 @@ const organism = pAequorFactory(1, mockUpStrand);
 //console.log(organism.compareDNA());
 //console.log(organism.willLikelySurvive());
 
+// Creating an array of 30 instances that passed the check of the .willLikelySurvive() method
 const survivalInstances = [];
-const unqualifiedInstances  = [];
 let i = 0;
-while (i < 100) {
-  if (survivalInstances.length === 30) {
-    break;
+
+while (survivalInstances.length < 30 && i < 10000) {
+  const newOrganism = pAequorFactory(i + 1, mockUpStrand());
+
+  //console.log(newOrganism.dna);
+  //console.log(newOrganism.willLikelySurvive());
+  
+  if (newOrganism.willLikelySurvive()) {
+    survivalInstances.push(newOrganism);
   }
 
-  if (organism.willLikelySurvive() === true) {
-    survivalInstances.push(organism.mutate());
-  }
-  else if (organism.willLikelySurvive() === false) {
-    unqualifiedInstances.push(organism.mutate());
-  }
-  else {
-    console.log('There is an error, somewhere.')
-  }
   i++;
 }
+
 console.log(survivalInstances);
-//console.log(unqualifiedInstances);
+
+
